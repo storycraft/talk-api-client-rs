@@ -12,7 +12,7 @@ use std::borrow::Cow;
 
 use reqwest::{header, Client, RequestBuilder, Url};
 
-use crate::{agent::TalkApiAgent, response::TalkStatusResponse, ApiURL};
+use crate::{agent::TalkApiAgent, response::TalkStatusResponse, ApiURL, ApiResult};
 
 use self::{resources::LoginData, xvc::XVCHasher};
 
@@ -105,7 +105,7 @@ impl<Xvc: XVCHasher> TalkAuthClient<Xvc> {
         &'a self,
         method: &LoginMethod<'a>,
         forced: bool,
-    ) -> Result<TalkStatusResponse<LoginData>, reqwest::Error> {
+    ) -> ApiResult<TalkStatusResponse<LoginData>> {
         let response = match method {
             LoginMethod::Account(account_form) => {
                 #[derive(Serialize)]
@@ -156,7 +156,7 @@ impl<Xvc: XVCHasher> TalkAuthClient<Xvc> {
     pub async fn request_passcode<'a>(
         &'a self,
         account_form: &AccountLoginForm<'a>,
-    ) -> Result<TalkStatusResponse<()>, reqwest::Error> {
+    ) -> ApiResult<TalkStatusResponse<()>> {
         let response = self
             .build_auth_request(
                 self.client
@@ -175,7 +175,7 @@ impl<Xvc: XVCHasher> TalkAuthClient<Xvc> {
         passcode: &str,
         account_form: &AccountLoginForm<'a>,
         permanent: bool,
-    ) -> Result<TalkStatusResponse<()>, reqwest::Error> {
+    ) -> ApiResult<TalkStatusResponse<()>> {
         #[derive(Serialize)]
         struct RegisterDeviceForm<'a> {
             #[serde(flatten)]

@@ -9,7 +9,7 @@ pub mod auth;
 pub mod credential;
 pub mod response;
 
-use std::{ops::Deref, str::FromStr};
+use std::{ops::Deref, str::FromStr, error::Error, fmt::Display};
 
 use reqwest::Url;
 
@@ -30,3 +30,28 @@ impl Deref for ApiURL {
         &self.0
     }
 }
+
+#[derive(Debug)]
+pub enum ApiRequestError {
+    Request(reqwest::Error)
+}
+
+impl From<reqwest::Error> for ApiRequestError {
+    fn from(err: reqwest::Error) -> Self {
+        Self::Request(err)
+    }
+}
+
+impl Display for ApiRequestError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ApiRequestError::Request(err) => err.fmt(f),
+        }
+    }
+}
+
+impl Error for ApiRequestError {
+    
+}
+
+type ApiResult<T> = Result<T, ApiRequestError>;
