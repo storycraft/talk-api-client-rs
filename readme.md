@@ -1,4 +1,4 @@
-# talk-auth-client
+# talk-api-client
 "KakaoTalk" internal api bindings
 
 ## Examples
