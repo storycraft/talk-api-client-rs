@@ -57,7 +57,7 @@ impl XVCHasher for Win32XVCHasher<'_> {
 
 /// Default xvc hasher uses android subdevice platform client format.
 /// 
-/// Format: sha512("{first_seed}|{email}|{second_seed}|{user_agent}|{third_seed}")
+/// Format: sha512("{first_seed}|{user_agent}|{second_seed}|{email}|{third_seed}")
 #[derive(Debug, Clone)]
 pub struct AndroidSubXVCHasher<'a> {
     first: Cow<'a, str>,
