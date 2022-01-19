@@ -32,8 +32,8 @@ impl<'a> TalkApiAgent<'a> {
 
     pub fn get_user_agent(&self, version: &str, language: &str) -> String {
         match self {
-            TalkApiAgent::Android(os_version) => format!("KT/{} Wd/{} {}", version, os_version, language),
-            TalkApiAgent::Win32(os_version) => format!("KT/{} An/{} {}", version, os_version, language),
+            TalkApiAgent::Android(os_version) => format!("KT/{} An/{} {}", version, os_version, language),
+            TalkApiAgent::Win32(os_version) => format!("KT/{} Wd/{} {}", version, os_version, language),
             TalkApiAgent::Custom { agent: _, user_agent } => user_agent.to_string(),
         }
     }
